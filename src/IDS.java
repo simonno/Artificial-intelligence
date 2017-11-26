@@ -6,7 +6,11 @@ public class IDS {
         List<State> solution = new LinkedList<>();
         int depth = 0;
         while (solution.isEmpty()) {
-            solution.addAll(DLS(initial, depth));
+            List<State> temp = DLS(initial, depth);
+            if (temp != null) {
+                solution.addAll(temp);
+                return solution;
+            }
         }
         return null;
     }
@@ -22,6 +26,7 @@ public class IDS {
                 List<State> temp = DLS(successor, depth - 1);
                 if (temp != null) {
                     solution.addAll(temp);
+                    solution.add(initial);
                     return solution;
                 }
             }
