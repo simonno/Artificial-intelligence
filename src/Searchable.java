@@ -1,7 +1,7 @@
 import java.util.List;
 
-public interface Searchable {
-    State getInitialState();
-    List<State> getSuccessors(State s);
-    boolean isGoal(State s);
+public interface Searchable<E, C> {
+    State<E, C> getInitialState();
+    List<State<E, C>> getSuccessors(State<E, C> s);
+    boolean isGoal(State<E, C> s);
 }

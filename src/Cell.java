@@ -1,7 +1,7 @@
-public enum Cell implements State {
+public enum Cell {
     START(1), GOAL(1), ROAD(1), D(3), HILL(10), WATER(null);
 
-    Integer cost;
+    private Integer cost;
 
     Cell(Integer c) {
         cost = c;

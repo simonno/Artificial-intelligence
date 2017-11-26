@@ -1,37 +1,33 @@
-import java.util.LinkedList;
 import java.util.List;
 
-public class IDS {
-    public List<State> search(State initial) {
-        List<State> solution = new LinkedList<>();
+public class IDS<E, C> implements Searcher<E, C> {
+
+    @Override
+    public State<E, C> search(Searchable<E, C> searchable) {
+        State<E, C> initial = searchable.getInitialState();
         int depth = 0;
-        while (solution.isEmpty()) {
-            List<State> temp = DLS(initial, depth);
-            if (temp != null) {
-                solution.addAll(temp);
-                return solution;
+        State<E, C> found = null;
+        while (true) {
+            found = DLS(initial, depth, searchable);
+            if (found != null) {
+                return found;
             }
+            depth++;
         }
-        return null;
     }
 
-    private List<State> DLS(State initial, int depth) {
-        List<State> solution = new LinkedList<>();
-        if (depth == 0 && initial.getType() == State.Type.GOAL) {
-            solution.add(initial);
-            return solution;
+    private State<E, C> DLS(State<E, C> s, int depth, Searchable<E, C> searchable) {
+        if (depth == 0 && searchable.isGoal(s)) {
+            return s;
         }
         if (depth > 0) {
-            for (State successor : initial.getSuccessors()) {
-                List<State> temp = DLS(successor, depth - 1);
-                if (temp != null) {
-                    solution.addAll(temp);
-                    solution.add(initial);
-                    return solution;
+            for (State<E, C> successor : searchable.getSuccessors(s)) {
+                State<E, C> found = DLS(successor, depth -1, searchable);
+                if (found != null){
+                    return found;
                 }
             }
         }
-        return null
-    ;
+        return null;
     }
 }

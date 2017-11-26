@@ -6,48 +6,52 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        String fileName = "input.txt";
+        String fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input.txt";
         String algorithm;
         int gridSize;
-        ArrayList<ArrayList<Cell>> grid;
+        ArrayList<ArrayList<State<Cell, Integer>>> grid;
+        int start_i = 0;
+        int start_j = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             algorithm = br.readLine();
-            gridSize = Integer.getInteger(br.readLine());
-            grid = new ArrayList<ArrayList<Cell>>(gridSize);
+            gridSize = Integer.parseInt(br.readLine());
+            grid = new ArrayList<ArrayList<State<Cell, Integer>>>(gridSize);
             String line;
             for (int i = 0; i < gridSize; i++) {
                 line = br.readLine();
-                ArrayList<Cell> row = new ArrayList<Cell>(gridSize);
+                ArrayList<State<Cell, Integer>> row = new ArrayList<State<Cell, Integer>>(gridSize);
                 for (int j = 0; j < gridSize; j++) {
 
                     switch (line.charAt(j)) {
                         case 'D':
-                            row.set(j, Cell.D);
+                            row.add(new State<>(Cell.D, Cell.D.getCost()));
                             break;
                         case 'G':
-                            row.set(j, Cell.GOAL);
+                            row.add(new State<>(Cell.HILL, Cell.HILL.getCost()));
                             break;
                         case 'H':
-                            row.set(j, Cell.HILL);
+                            row.add(new State<>(Cell.HILL, Cell.HILL.getCost()));
                             break;
                         case 'R':
-                            row.set(j, Cell.ROAD);
+                            row.add(new State<>(Cell.ROAD, Cell.ROAD.getCost()));
                             break;
                         case 'S':
-                            row.set(j, Cell.START);
+                            row.add(new State<>(Cell.START, Cell.START.getCost()));
+                            start_i = i;
+                            start_j = j;
                             break;
                         case 'W':
-                            row.set(j, Cell.WATER);
+                            row.add(new State<>(Cell.WATER, Cell.WATER.getCost()));
                             break;
                         default:
-                            row.set(j, Cell.ROAD);
+                            row.add(new State<>(Cell.ROAD, Cell.ROAD.getCost()));
                             break;
                     }
                 }
-                grid.set(i, row);
+                grid.add(row);
             }
-            Searchable board = new Grid(grid);
+            Searchable board = new Grid(grid, start_i, start_j);
         } catch (IOException e) {
             e.printStackTrace();
         }
