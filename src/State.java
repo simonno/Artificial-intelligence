@@ -1,7 +1,7 @@
 public class State<E, C> {
 
     private E element;
-    private E cameFrom;
+    private State<E, C> cameFrom;
     private C cost;
 
     public State(E element, C cost) {
@@ -17,11 +17,11 @@ public class State<E, C> {
         return element;
     }
 
-    public void setCameFrom(E cameFrom) {
+    public void setCameFrom(State<E, C> cameFrom) {
         this.cameFrom = cameFrom;
     }
 
-    public E getCameFrom() {
+    public State<E, C> getCameFrom() {
         return cameFrom;
     }
 }

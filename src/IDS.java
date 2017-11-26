@@ -24,6 +24,11 @@ public class IDS<E, C> implements Searcher<E, C> {
             for (State<E, C> successor : searchable.getSuccessors(s)) {
                 State<E, C> found = DLS(successor, depth -1, searchable);
                 if (found != null){
+                    State<E, C> cameFrom = found;
+                    while (cameFrom.getCameFrom() != null) {
+                        cameFrom = cameFrom.getCameFrom();
+                    }
+                    cameFrom.setCameFrom(s);
                     return found;
                 }
             }

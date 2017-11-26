@@ -8,8 +8,8 @@ public class Main {
     public static void main(String[] args) {
         String fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input.txt";
         String algorithm;
-        int gridSize;
-        ArrayList<ArrayList<State<Cell, Integer>>> grid;
+        int gridSize = 0;
+        ArrayList<ArrayList<State<Cell, Integer>>> grid = null;
         int start_i = 0;
         int start_j = 0;
         try {
@@ -22,39 +22,44 @@ public class Main {
                 line = br.readLine();
                 ArrayList<State<Cell, Integer>> row = new ArrayList<State<Cell, Integer>>(gridSize);
                 for (int j = 0; j < gridSize; j++) {
-
+                    Cell c = new Cell(i,j);
                     switch (line.charAt(j)) {
                         case 'D':
-                            row.add(new State<>(Cell.D, Cell.D.getCost()));
+                            c.setType(Cell.Type.D);
                             break;
                         case 'G':
-                            row.add(new State<>(Cell.HILL, Cell.HILL.getCost()));
+                            c.setType(Cell.Type.GOAL);
                             break;
                         case 'H':
-                            row.add(new State<>(Cell.HILL, Cell.HILL.getCost()));
+                            c.setType(Cell.Type.HILL);
                             break;
                         case 'R':
-                            row.add(new State<>(Cell.ROAD, Cell.ROAD.getCost()));
+                            c.setType(Cell.Type.ROAD);
                             break;
                         case 'S':
-                            row.add(new State<>(Cell.START, Cell.START.getCost()));
+                            c.setType(Cell.Type.START);
                             start_i = i;
                             start_j = j;
                             break;
                         case 'W':
-                            row.add(new State<>(Cell.WATER, Cell.WATER.getCost()));
+                            c.setType(Cell.Type.WATER);
                             break;
                         default:
-                            row.add(new State<>(Cell.ROAD, Cell.ROAD.getCost()));
+                            c.setType(Cell.Type.ROAD);
                             break;
                     }
+                    row.add(new State<Cell, Integer>(c, c.getCost()));
                 }
                 grid.add(row);
             }
-            Searchable board = new Grid(grid, start_i, start_j);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Searchable<Cell, Integer> board = new Grid(grid,gridSize, gridSize, start_i, start_j);
+        Searcher<Cell, Integer> searcher = new IDS<Cell, Integer>();
+        State<Cell, Integer> goal = searcher.search(board);
+
+        return;
 
     }
 
