@@ -26,14 +26,41 @@ public class Grid implements Searchable<Cell, Integer> {
         Cell c = s.getElement();
         int row = c.getRow();
         int column = c.getColumn();
-        this.addSuccessor(successors, row, column + 1); //Right
-        this.addSuccessor(successors, row + 1, column + 1); //Right Down
-        this.addSuccessor(successors, row + 1, column); //Down
-        this.addSuccessor(successors, row + 1, column - 1); //Left Down
-        this.addSuccessor(successors, row, column - 1); //Left
-        this.addSuccessor(successors, row - 1, column - 1); //Left Up
-        this.addSuccessor(successors, row - 1, column); //Up
-        this.addSuccessor(successors, row - 1, column + 1); //Right Up
+        int check1, check2 = -2, check3, check4;
+        check1 = this.addSuccessor(successors, row, column + 1); //Right
+        check4 = check1;
+        if (check1 != 0) {
+            check2 = this.addSuccessor(successors, row + 1, column + 1); //Right Down
+        }
+        check3 = this.addSuccessor(successors, row + 1, column); //Down
+        if (check3 == 0  && check1 != 0 && check2 == 1)  {
+            int last = successors.size() - 1;
+            successors.remove(last);
+        }
+
+        check1 = check3;
+        if (check1 != 0) {
+            check2 = this.addSuccessor(successors, row + 1, column - 1); //Left Down
+        }
+        check3 = this.addSuccessor(successors, row, column - 1); //Left
+        if (check3 == 0  && check1 != 0 && check2 == 1)  {
+            int last = successors.size() - 1;
+            successors.remove(last);
+        }
+
+        check1 = check3;
+        if (check1 != 0) {
+            check2 = this.addSuccessor(successors, row - 1, column - 1); //Left Up
+        }
+        check3 = this.addSuccessor(successors, row - 1, column); //Up
+        if (check3 == 0  && check1 != 0 && check2 == 1)  {
+            int last = successors.size() - 1;
+            successors.remove(last);
+        }
+
+        if (check3 != 0 && check4 != 0) {
+            this.addSuccessor(successors, row - 1, column + 1); //Right Up
+        }
         return successors;
     }
 
@@ -49,15 +76,16 @@ public class Grid implements Searchable<Cell, Integer> {
         return false; // out of grid's bounds or a water cell
     }
 
-    private Boolean addSuccessor(ArrayList<State<Cell, Integer>> successors, int row, int column) {
+    private int addSuccessor(ArrayList<State<Cell, Integer>> successors, int row, int column) {
         if (row >= 0 && row < this.rows && column >= 0 && column < this.columns) {
             State<Cell, Integer> successor = this.getState(row, column);
             if (successor.getElement().getType() != Cell.Type.WATER) {
                 successors.add(successor);
-                return true; // Ok
+                return 1; // Ok
             }
+            return 0; // a water cell
         }
-        return false; // out of grid's bounds or a water cell
+        return -1; // out of grid's bounds
     }
 
 

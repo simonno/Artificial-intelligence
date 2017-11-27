@@ -1,4 +1,3 @@
-import java.util.List;
 
 public class IDS<E, C> implements Searcher<E, C> {
 
