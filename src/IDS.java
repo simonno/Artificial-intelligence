@@ -21,8 +21,8 @@ public class IDS<E, C extends Comparable<C>> implements Searcher<E, C> {
         }
         if (depth > 0) {
             for (State<E, C> successor : searchable.getSuccessors(s)) {
-                State<E, C> found = DLS(successor, depth -1, searchable);
-                if (found != null){
+                State<E, C> found = DLS(successor, depth - 1, searchable);
+                if (found != null) {
                     State<E, C> cameFrom = found;
                     while (cameFrom.getCameFrom() != null) {
                         cameFrom = cameFrom.getCameFrom();
@@ -34,4 +34,9 @@ public class IDS<E, C extends Comparable<C>> implements Searcher<E, C> {
         }
         return null;
     }
+
+//    private State<E, C> DLSI(State<E, C> s, int depth, Searchable<E, C> searchable) {
+//
+//
+//    }
 }

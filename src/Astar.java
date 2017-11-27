@@ -14,7 +14,7 @@ public class Astar<E, C extends Comparable<C>> implements Searcher<E, C> {
         start.setFValue(start.getHeuristics());
         open.add(start);
 
-        while (open.isEmpty()) {
+        while (!open.isEmpty()) {
             State<E, C> current = open.poll();
             if (searchable.isGoal(current)) {
                 return current;
@@ -36,6 +36,7 @@ public class Astar<E, C extends Comparable<C>> implements Searcher<E, C> {
                     open.add(successor);
                 } else  {
                     successor.setHeuristics(searchable.getHeuristics(successor));
+                    successor.setFValue(searchable.sumCost(successor.getHeuristics(), successor.getCost()));
                     open.add(successor);
                 }
                 successor.setCost(successorCurrentCost);
