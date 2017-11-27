@@ -9,18 +9,18 @@ public class Main {
         String fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input2.txt";
         String algorithm;
         int gridSize = 0;
-        ArrayList<ArrayList<State<Cell, Integer>>> grid = null;
+        ArrayList<ArrayList<State<Cell, Double>>> grid = null;
         int start_i = 0;
         int start_j = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             algorithm = br.readLine();
             gridSize = Integer.parseInt(br.readLine());
-            grid = new ArrayList<ArrayList<State<Cell, Integer>>>(gridSize);
+            grid = new ArrayList<ArrayList<State<Cell, Double>>>(gridSize);
             String line;
             for (int i = 0; i < gridSize; i++) {
                 line = br.readLine();
-                ArrayList<State<Cell, Integer>> row = new ArrayList<State<Cell, Integer>>(gridSize);
+                ArrayList<State<Cell, Double>> row = new ArrayList<State<Cell, Double>>(gridSize);
                 for (int j = 0; j < gridSize; j++) {
                     Cell c = new Cell(i, j);
                     switch (line.charAt(j)) {
@@ -48,19 +48,20 @@ public class Main {
                             c.setType(Cell.Type.ROAD);
                             break;
                     }
-                    row.add(new State<Cell, Integer>(c, c.getCost()));
+                    row.add(new State<Cell, Double>(c, c.getCost().doubleValue()));
                 }
                 grid.add(row);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Searchable<Cell, Integer> board = new Grid(grid, gridSize, gridSize, start_i, start_j);
-        Searcher<Cell, Integer> searcher = new IDS<Cell, Integer>();
-        State<Cell, Integer> goal = searcher.search(board);
+        Searchable<Cell, Double> board = new Grid(grid, gridSize, gridSize, 0, 0,
+                gridSize - 1, gridSize - 1);
+        Searcher<Cell, Double> searcher = new IDS<Cell, Double>();
+        State<Cell, Double> goal = searcher.search(board);
 
-        State<Cell, Integer> s = goal;
-        State<Cell, Integer> temp;
+        State<Cell, Double> s = goal;
+        State<Cell, Double> temp;
         StringBuffer solution = new StringBuffer();
         int count = 1;
         while ((temp = s.getCameFrom()) != null) {
@@ -92,10 +93,10 @@ public class Main {
             }
             direction.append(solution);
             solution = direction;
-            s=temp;
+            s = temp;
             count++;
         }
-        solution.replace(0,1,"");
+        solution.replace(0, 1, "");
         solution.append(" ").append(String.valueOf(count));
         System.out.println(solution);
         return;

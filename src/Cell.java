@@ -1,6 +1,6 @@
 public class Cell {
     public enum Type {
-        START(1), GOAL(1), ROAD(1), D(3), HILL(10), WATER(null);
+        START(0), GOAL(1), ROAD(1), D(3), HILL(10), WATER(null);
 
         private final Integer cost;
 

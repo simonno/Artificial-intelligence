@@ -1,5 +1,5 @@
 
-public class IDS<E, C> implements Searcher<E, C> {
+public class IDS<E, C extends Comparable<C>> implements Searcher<E, C> {
 
     @Override
     public State<E, C> search(Searchable<E, C> searchable) {

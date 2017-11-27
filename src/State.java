@@ -1,8 +1,13 @@
-public class State<E, C> {
+import java.util.Comparator;
+
+public class State<E, C extends Comparable<C>> {
 
     private E element;
     private State<E, C> cameFrom;
     private C cost;
+    private C heuristics;
+
+    private C fValue;
 
     public State(E element, C cost) {
         this.element = element;
@@ -11,6 +16,10 @@ public class State<E, C> {
 
     public C getCost() {
         return cost;
+    }
+
+    public void setCost(C cost) {
+        this.cost = cost;
     }
 
     public E getElement() {
@@ -23,5 +32,21 @@ public class State<E, C> {
 
     public State<E, C> getCameFrom() {
         return cameFrom;
+    }
+
+    public void setHeuristics(C heuristics) {
+        this.heuristics = heuristics;
+    }
+
+    public C getHeuristics() {
+        return heuristics;
+    }
+
+    public C getFValue() {
+        return fValue;
+    }
+
+    public void setFValue(C fValue) {
+        this.fValue = fValue;
     }
 }
