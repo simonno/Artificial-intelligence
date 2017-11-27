@@ -1,11 +1,11 @@
 
-public class IDS<E, C extends Comparable<C>> implements Searcher<E, C> {
+public class IDS<E> implements Searcher<E> {
 
     @Override
-    public State<E, C> search(Searchable<E, C> searchable) {
-        State<E, C> initial = searchable.getInitialState();
+    public State<E> search(Searchable<E> searchable) {
+        State<E> initial = searchable.getInitialState();
         int depth = 0;
-        State<E, C> found = null;
+        State<E> found = null;
         while (true) {
             found = DLS(initial, depth, searchable);
             if (found != null) {
@@ -15,15 +15,15 @@ public class IDS<E, C extends Comparable<C>> implements Searcher<E, C> {
         }
     }
 
-    private State<E, C> DLS(State<E, C> s, int depth, Searchable<E, C> searchable) {
+    private State<E> DLS(State<E> s, int depth, Searchable<E> searchable) {
         if (depth == 0 && searchable.isGoal(s)) {
             return s;
         }
         if (depth > 0) {
-            for (State<E, C> successor : searchable.getSuccessors(s)) {
-                State<E, C> found = DLS(successor, depth - 1, searchable);
+            for (State<E> successor : searchable.getSuccessors(s)) {
+                State<E> found = DLS(successor, depth - 1, searchable);
                 if (found != null) {
-                    State<E, C> cameFrom = found;
+                    State<E> cameFrom = found;
                     while (cameFrom.getCameFrom() != null) {
                         cameFrom = cameFrom.getCameFrom();
                     }

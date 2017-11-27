@@ -50,4 +50,19 @@ public class Cell {
     public void setColumn(int column) {
         this.column = column;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        try {
+            Cell other = (Cell) o;
+            if (this.getRow() == other.getRow() && this.getColumn() == other.getColumn()) {
+                return true;
+            }
+            return false;
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
 }

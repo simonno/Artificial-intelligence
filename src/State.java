@@ -1,24 +1,21 @@
-import java.util.Comparator;
-
-public class State<E, C extends Comparable<C>> {
+public class State<E> {
 
     private E element;
-    private State<E, C> cameFrom;
-    private C cost;
-    private C heuristics;
+    private State<E> cameFrom;
+    private double cost;
+//    private double heuristics;
+//    private double fValue;
 
-    private C fValue;
-
-    public State(E element, C cost) {
+    public State(E element, double cost) {
         this.element = element;
         this.cost = cost;
     }
 
-    public C getCost() {
+    public double getCost() {
         return cost;
     }
 
-    public void setCost(C cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
@@ -26,27 +23,39 @@ public class State<E, C extends Comparable<C>> {
         return element;
     }
 
-    public void setCameFrom(State<E, C> cameFrom) {
+    public void setCameFrom(State<E> cameFrom) {
         this.cameFrom = cameFrom;
     }
 
-    public State<E, C> getCameFrom() {
+    public State<E> getCameFrom() {
         return cameFrom;
     }
 
-    public void setHeuristics(C heuristics) {
-        this.heuristics = heuristics;
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        try {
+            State<E> other = (State<E>) o;
+            return this.element.equals(other.getElement());
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 
-    public C getHeuristics() {
-        return heuristics;
-    }
-
-    public C getFValue() {
-        return fValue;
-    }
-
-    public void setFValue(C fValue) {
-        this.fValue = fValue;
-    }
+//    public void setHeuristics(double heuristics) {
+//        this.heuristics = heuristics;
+//    }
+//
+//    public double getHeuristics() {
+//        return heuristics;
+//    }
+//
+//    public double getFValue() {
+//        return fValue;
+//    }
+//
+//    public void setFValue(double fValue) {
+//        this.fValue = fValue;
+//    }
 }

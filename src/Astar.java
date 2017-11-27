@@ -1,48 +1,47 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
-public class Astar<E, C extends Comparable<C>> implements Searcher<E, C> {
+public class Astar<E> implements Searcher<E> {
+    private Searchable<E> searchable;
+
+    private class StateComparator implements Comparator<State<E>> {
+        @Override
+        public int compare(State<E> s1, State<E> s2) {
+            double fValue1 = s1.getCost() + searchable.getHeuristics(s1);
+            double fValue2 = s2.getCost() + searchable.getHeuristics(s2);
+            return Double.compare(fValue1, fValue2);
+        }
+    }
+
+
     @Override
-    public State<E, C> search(Searchable<E, C> searchable) {
-        Queue<State<E, C>> open = new PriorityQueue<>(searchable.getComparator());
-        List<State<E, C>> close = new ArrayList<>();
+    public State<E> search(Searchable<E> searchable) {
+        this.searchable = searchable;
+        StateComparator comparator = new StateComparator();
+        LinkedList<State<E>> open = new LinkedList<>();
 
-        State<E, C> start = searchable.getInitialState();
-        start.setHeuristics(searchable.getHeuristics(start));
-        start.setFValue(start.getHeuristics());
-        open.add(start);
+        open.add(searchable.getInitialState());
 
         while (!open.isEmpty()) {
-            State<E, C> current = open.poll();
-            if (searchable.isGoal(current)) {
-                return current;
-            }
+            State<E> current = open.removeFirst();
+            if (searchable.isGoal(current)) return current;
 
-            for (State<E, C> successor : searchable.getSuccessors(current)) {
-                C successorCurrentCost = searchable.getCurrentCost(successor, current);
-                int compareResult = successor.getCost().compareTo(successorCurrentCost);
-                if (open.contains(successor)) {
-                    if (compareResult <= 0) {
-                        continue;
-                    }
-                } else if (close.contains(successor)) {
-                    if (compareResult <= 0) {
-                        continue;
-                    }
-                    // move from close to open
-                    close.remove(successor);
-                    open.add(successor);
-                } else  {
-                    successor.setHeuristics(searchable.getHeuristics(successor));
-                    successor.setFValue(searchable.sumCost(successor.getHeuristics(), successor.getCost()));
-                    open.add(successor);
+            for (State<E> successor : searchable.getSuccessors(current)) {
+                successor.setCost(current.getCost() + successor.getCost());
+                if (successor.getCameFrom() == null || successor.getCameFrom() != current) {
+                    successor.setCameFrom(current);
                 }
-                successor.setCost(successorCurrentCost);
-                successor.setCameFrom(current);
+
+                if (open.contains(successor)){
+                    int index = open.indexOf(successor);
+                    State<E> dup = open.get(index);
+                    if (dup.getCost() < successor.getCost()) {
+                        continue;
+                    }
+                    open.remove(index);
+                }
+                open.add(successor);
+                open.sort(comparator);
             }
-            close.add(current);
         }
         return null;
     }

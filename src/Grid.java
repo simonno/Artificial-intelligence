@@ -1,8 +1,7 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public class Grid implements Searchable<Cell, Double> {
+public class Grid implements Searchable<Cell> {
 
     private ArrayList<ArrayList<Cell>> grid;
     private final int rows;
@@ -20,13 +19,13 @@ public class Grid implements Searchable<Cell, Double> {
     }
 
     @Override
-    public State<Cell, Double> getInitialState() {
-        return new State<Cell, Double>(this.start, this.start.getCost().doubleValue());
+    public State<Cell> getInitialState() {
+        return new State<Cell>(this.start, this.start.getCost().doubleValue());
     }
 
     @Override
-    public List<State<Cell, Double>> getSuccessors(State<Cell, Double> s) {
-        ArrayList<State<Cell, Double>> successors = new ArrayList<State<Cell, Double>>();
+    public List<State<Cell>> getSuccessors(State<Cell> s) {
+        ArrayList<State<Cell>> successors = new ArrayList<State<Cell>>();
         Cell c = s.getElement();
         int row = c.getRow();
         int column = c.getColumn();
@@ -68,11 +67,23 @@ public class Grid implements Searchable<Cell, Double> {
         return successors;
     }
 
-    private int addSuccessor(ArrayList<State<Cell, Double>> successors, int row, int column) {
+    @Override
+    public boolean isGoal(State<Cell> s) {
+        return s.getElement().getType() == Cell.Type.GOAL;
+    }
+
+    @Override
+    public double getHeuristics(State<Cell> s) {
+        int rowDiff = s.getElement().getRow() - this.goal.getRow();
+        int columnDiff = s.getElement().getColumn() - this.goal.getColumn();
+        return Math.sqrt(Math.pow(columnDiff, 2) + Math.pow(rowDiff, 2));
+    }
+
+    private int addSuccessor(ArrayList<State<Cell>> successors, int row, int column) {
         if (row >= 0 && row < this.rows && column >= 0 && column < this.columns) {
             Cell successor = this.getCell(row, column);
             if (successor.getType() != Cell.Type.WATER) {
-                successors.add(new State<Cell, Double>(successor,successor.getCost().doubleValue()));
+                successors.add(new State<Cell>(successor,successor.getCost().doubleValue()));
                 return 1; // Ok
             }
             return 0; // a water cell
@@ -80,43 +91,7 @@ public class Grid implements Searchable<Cell, Double> {
         return -1; // out of grid's bounds
     }
 
-    @Override
-    public boolean isGoal(State<Cell, Double> s) {
-        return s.getElement().getType() == Cell.Type.GOAL;
-    }
-
-    @Override
-    public Double getHeuristics(State<Cell, Double> s) {
-        int rowDiff = s.getElement().getRow() - this.goal.getRow();
-        int columnDiff = s.getElement().getColumn() - this.goal.getColumn();
-        return Math.sqrt(Math.pow(columnDiff, 2) + Math.pow(rowDiff, 2));
-    }
-
-    @Override
-    public Double getCurrentCost(State<Cell, Double> s, State<Cell, Double> cameFrom) {
-       return cameFrom.getCost() + s.getElement().getCost();
-    }
-
-    @Override
-    public Double sumCost(Double c1, Double c2) {
-        return c1 + c2;
-    }
-
-    @Override
-    public Comparator<State<Cell, Double>> getComparator() {
-        return new StateComparator();
-    }
-
     private Cell getCell(int row, int column) {
         return grid.get(row).get(column);
-    }
-
-    public class StateComparator implements Comparator<State<Cell, Double>> {
-        @Override
-        public int compare(State<Cell, Double> s1, State<Cell, Double> s2) {
-            if (s1.getFValue() > s2.getFValue()) return 1;
-            if (s2.getFValue() > s1.getFValue()) return -1;
-            return 0;
-        }
     }
 }

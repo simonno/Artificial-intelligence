@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        String fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input6.txt";
+        String fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input4.txt";
         String algorithm = "";
         int gridSize = 0;
         ArrayList<ArrayList<Cell>> grid = null;
@@ -48,22 +48,23 @@ public class Main {
                 }
                 grid.add(row);
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Searchable<Cell, Double> board = new Grid(grid, gridSize, gridSize, 0, 0,
+        Searchable<Cell> board = new Grid(grid, gridSize, gridSize, 0, 0,
                 gridSize - 1, gridSize - 1);
         //Searcher<Cell, Double> searcher = new IDS<Cell, Double>();
-        Searcher<Cell, Double> searcher;
+        Searcher<Cell> searcher;
         if(algorithm.matches("IDS")){
-            searcher = new IDS<Cell, Double>();
+            searcher = new IDS<Cell>();
         } else {
-            searcher = new Astar<Cell, Double>();
+            searcher = new Astar<Cell>();
         }
 
-        State<Cell, Double> goal = searcher.search(board);
-        State<Cell, Double> s = goal;
-        State<Cell, Double> temp;
+        State<Cell> goal = searcher.search(board);
+        State<Cell> s = goal;
+        State<Cell> temp;
         StringBuffer solution = new StringBuffer();
         int count =  0;
         while ((temp = s.getCameFrom()) != null) {
