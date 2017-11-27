@@ -22,7 +22,7 @@ public class Main {
                 line = br.readLine();
                 ArrayList<State<Cell, Integer>> row = new ArrayList<State<Cell, Integer>>(gridSize);
                 for (int j = 0; j < gridSize; j++) {
-                    Cell c = new Cell(i,j);
+                    Cell c = new Cell(i, j);
                     switch (line.charAt(j)) {
                         case 'D':
                             c.setType(Cell.Type.D);
@@ -55,10 +55,49 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Searchable<Cell, Integer> board = new Grid(grid,gridSize, gridSize, start_i, start_j);
+        Searchable<Cell, Integer> board = new Grid(grid, gridSize, gridSize, start_i, start_j);
         Searcher<Cell, Integer> searcher = new IDS<Cell, Integer>();
         State<Cell, Integer> goal = searcher.search(board);
 
+        State<Cell, Integer> s = goal;
+        State<Cell, Integer> temp;
+        StringBuffer solution = new StringBuffer();
+        int count = 1;
+        while ((temp = s.getCameFrom()) != null) {
+            StringBuffer direction = new StringBuffer();
+            int rowDiff = s.getElement().getRow() - temp.getElement().getRow();
+            int columnDiff = temp.getElement().getColumn() - s.getElement().getColumn();
+
+            direction.append("-");
+            switch (columnDiff) {
+                case -1: // right
+                    direction.append('R');
+                    break;
+                case 0: // same column
+                    break;
+                case 1: // Left
+                    direction.append('L');
+                    break;
+            }
+
+            switch (rowDiff) {
+                case -1: // up
+                    direction.append('U');
+                    break;
+                case 0: // same row
+                    break;
+                case 1: // down
+                    direction.append('D');
+                    break;
+            }
+            direction.append(solution);
+            solution = direction;
+            s=temp;
+            count++;
+        }
+        solution.replace(0,1,"");
+        solution.append(" ").append(String.valueOf(count));
+        System.out.println(solution);
         return;
 
     }

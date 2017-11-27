@@ -6,21 +6,18 @@ public class Grid implements Searchable<Cell, Integer> {
     private ArrayList<ArrayList<State<Cell, Integer>>> grid;
     private final int rows;
     private final int columns;
-    private int start_i;
-    private final int start_j;
-    private Cell start;
+    private State<Cell, Integer> start;
 
-    public Grid(ArrayList<ArrayList<State<Cell, Integer>>> grid, int rows, int columns, int start_i, int start_j) {
+    public Grid(ArrayList<ArrayList<State<Cell, Integer>>> grid, int rows, int columns, int startRow, int startColumn) {
         this.grid = grid;
         this.rows = rows;
         this.columns = columns;
-        this.start_i = start_i;
-        this.start_j = start_j;
+        this.start = this.getState(startRow, startColumn);
     }
 
     @Override
     public State<Cell, Integer> getInitialState() {
-        return this.getState(start_i, start_j);
+        return this.start;
     }
 
     @Override
@@ -40,15 +37,27 @@ public class Grid implements Searchable<Cell, Integer> {
         return successors;
     }
 
-    private boolean addSuccessor(ArrayList<State<Cell, Integer>> successors, int row, int column) {
+    private boolean addDiagonalSuccessor(ArrayList<State<Cell, Integer>> successors, int row, int column, Cell.Type t1, Cell.Type t2) {
+        if (row >= 0 && row < this.rows && column >= 0 && column < this.columns) {
+            State<Cell, Integer> successor = this.getState(row, column);
+            Cell.Type t = successor.getElement().getType();
+            if (t != Cell.Type.WATER && t1 != Cell.Type.WATER && t2 != Cell.Type.WATER) {
+                successors.add(successor);
+                return true; // Ok
+            }
+        }
+        return false; // out of grid's bounds or a water cell
+    }
+
+    private Boolean addSuccessor(ArrayList<State<Cell, Integer>> successors, int row, int column) {
         if (row >= 0 && row < this.rows && column >= 0 && column < this.columns) {
             State<Cell, Integer> successor = this.getState(row, column);
             if (successor.getElement().getType() != Cell.Type.WATER) {
                 successors.add(successor);
-                return true;
+                return true; // Ok
             }
         }
-        return false;
+        return false; // out of grid's bounds or a water cell
     }
 
 
@@ -58,9 +67,6 @@ public class Grid implements Searchable<Cell, Integer> {
     }
 
     private State<Cell, Integer> getState(int row, int column) {
-//        ArrayList<State<Cell, Integer>> row1 = this.grid.get(row);
-//        State<Cell, Integer> s = row1.get(column);
-//        return s;
         return grid.get(row).get(column);
     }
 
