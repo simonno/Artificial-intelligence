@@ -27,11 +27,9 @@ public class Astar<E> implements Searcher<E> {
 
             for (State<E> successor : searchable.getSuccessors(current)) {
                 successor.setCost(current.getCost() + successor.getCost());
-                if (successor.getCameFrom() == null || successor.getCameFrom() != current) {
-                    successor.setCameFrom(current);
-                }
+                successor.setCameFrom(current);
 
-                if (open.contains(successor)){
+                if (open.contains(successor)) {
                     int index = open.indexOf(successor);
                     State<E> dup = open.get(index);
                     if (dup.getCost() < successor.getCost()) {
