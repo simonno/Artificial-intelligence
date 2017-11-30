@@ -3,12 +3,17 @@ public class State<E> {
     private E element;
     private State<E> cameFrom;
     private double cost;
-//    private double heuristics;
-//    private double fValue;
+    private int depth;
 
     public State(E element, double cost) {
         this.element = element;
         this.cost = cost;
+    }
+
+    public State(E element, double cost, int depth) {
+        this.element = element;
+        this.cost = cost;
+        this.depth = depth;
     }
 
     public double getCost() {
@@ -31,6 +36,14 @@ public class State<E> {
         return cameFrom;
     }
 
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
@@ -42,20 +55,4 @@ public class State<E> {
             return false;
         }
     }
-
-//    public void setHeuristics(double heuristics) {
-//        this.heuristics = heuristics;
-//    }
-//
-//    public double getHeuristics() {
-//        return heuristics;
-//    }
-//
-//    public double getFValue() {
-//        return fValue;
-//    }
-//
-//    public void setFValue(double fValue) {
-//        this.fValue = fValue;
-//    }
 }

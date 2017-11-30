@@ -20,7 +20,7 @@ public class Grid implements Searchable<Cell> {
 
     @Override
     public State<Cell> getInitialState() {
-        return new State<Cell>(this.start, this.start.getCost().doubleValue());
+        return  new State<Cell>(this.start, this.start.getCost().doubleValue(), 0);
     }
 
     @Override
@@ -30,12 +30,13 @@ public class Grid implements Searchable<Cell> {
         int row = c.getRow();
         int column = c.getColumn();
         int check1, check2 = -2, check3, check4;
-        check1 = this.addSuccessor(successors, row, column + 1); //Right
+        int depthSuccessors = s.getDepth() + 1;
+        check1 = this.addSuccessor(successors, row, column + 1, depthSuccessors); //Right
         check4 = check1;
         if (check1 != 0) {
-            check2 = this.addSuccessor(successors, row + 1, column + 1); //Right Down
+            check2 = this.addSuccessor(successors, row + 1, column + 1, depthSuccessors); //Right Down
         }
-        check3 = this.addSuccessor(successors, row + 1, column); //Down
+        check3 = this.addSuccessor(successors, row + 1, column, depthSuccessors); //Down
         if (check3 == 0  && check1 != 0 && check2 == 1)  {
             int last = successors.size() - 1;
             successors.remove(last);
@@ -43,9 +44,9 @@ public class Grid implements Searchable<Cell> {
 
         check1 = check3;
         if (check1 != 0) {
-            check2 = this.addSuccessor(successors, row + 1, column - 1); //Left Down
+            check2 = this.addSuccessor(successors, row + 1, column - 1, depthSuccessors); //Left Down
         }
-        check3 = this.addSuccessor(successors, row, column - 1); //Left
+        check3 = this.addSuccessor(successors, row, column - 1, depthSuccessors); //Left
         if (check3 == 0  && check1 != 0 && check2 == 1)  {
             int last = successors.size() - 1;
             successors.remove(last);
@@ -53,16 +54,16 @@ public class Grid implements Searchable<Cell> {
 
         check1 = check3;
         if (check1 != 0) {
-            check2 = this.addSuccessor(successors, row - 1, column - 1); //Left Up
+            check2 = this.addSuccessor(successors, row - 1, column - 1, depthSuccessors); //Left Up
         }
-        check3 = this.addSuccessor(successors, row - 1, column); //Up
+        check3 = this.addSuccessor(successors, row - 1, column, depthSuccessors); //Up
         if (check3 == 0  && check1 != 0 && check2 == 1)  {
             int last = successors.size() - 1;
             successors.remove(last);
         }
 
         if (check3 != 0 && check4 != 0) {
-            this.addSuccessor(successors, row - 1, column + 1); //Right Up
+            this.addSuccessor(successors, row - 1, column + 1, depthSuccessors); //Right Up
         }
         return successors;
     }
@@ -79,11 +80,11 @@ public class Grid implements Searchable<Cell> {
         return Math.sqrt(Math.pow(columnDiff, 2) + Math.pow(rowDiff, 2));
     }
 
-    private int addSuccessor(ArrayList<State<Cell>> successors, int row, int column) {
+    private int addSuccessor(ArrayList<State<Cell>> successors, int row, int column, int depth) {
         if (row >= 0 && row < this.rows && column >= 0 && column < this.columns) {
             Cell successor = this.getCell(row, column);
             if (successor.getType() != Cell.Type.WATER) {
-                successors.add(new State<Cell>(successor,successor.getCost().doubleValue()));
+                successors.add(new State<Cell>(successor,successor.getCost().doubleValue(), depth));
                 return 1; // Ok
             }
             return 0; // a water cell

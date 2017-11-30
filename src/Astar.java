@@ -8,10 +8,13 @@ public class Astar<E> implements Searcher<E> {
         public int compare(State<E> s1, State<E> s2) {
             double fValue1 = s1.getCost() + searchable.getHeuristics(s1);
             double fValue2 = s2.getCost() + searchable.getHeuristics(s2);
-            return Double.compare(fValue1, fValue2);
+            if (fValue1 > fValue2) return 1;
+            if (fValue1 < fValue2) return -1;
+            if (s1.getDepth() > s2.getDepth()) return 1;
+            if (s1.getDepth() < s2.getDepth()) return -1;
+            return 0;
         }
     }
-
 
     @Override
     public State<E> search(Searchable<E> searchable) {
@@ -44,3 +47,4 @@ public class Astar<E> implements Searcher<E> {
         return null;
     }
 }
+
