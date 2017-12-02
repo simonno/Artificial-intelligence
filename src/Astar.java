@@ -10,8 +10,8 @@ public class Astar<E> implements Searcher<E> {
             double fValue2 = s2.getCost() + searchable.getHeuristics(s2);
             if (fValue1 > fValue2) return 1;
             if (fValue1 < fValue2) return -1;
-            if (s1.getDepth() > s2.getDepth()) return 1;
-            if (s1.getDepth() < s2.getDepth()) return -1;
+            if (s1.getDepth() < s2.getDepth()) return 1;
+            if (s1.getDepth() > s2.getDepth()) return -1;
             return 0;
         }
     }
