@@ -6,19 +6,19 @@ public class IDS<E> implements Searcher<E> {
 
     @Override
     public State<E> search(Searchable<E> searchable) {
+        double max = Math.pow(searchable.getSize(), 2);
         this.queue = new LinkedList<State<E>>();
         State<E> initial = searchable.getInitialState();
-        int depth = 0;
         State<E> found = null;
-        while (true) {
+        for (int depth = 0; depth < max; depth++) {
             this.queue.add(initial);
             found = DLS(initial, depth, searchable);
             if (found != null) {
                 return found;
             }
             this.queue.clear();
-            depth++;
         }
+        return null;
     }
 
     private State<E> DLS(State<E> s, int depth, Searchable<E> searchable) {

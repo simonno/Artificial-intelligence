@@ -3,12 +3,33 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main {
+import static java.lang.System.exit;
+
+public class SearchAlgorithms {
+
+    private static int gridSize;
+    private static String fileName;
+    private static String algorithm;
 
     public static void main(String[] args) {
-        String fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input.txt";
-        String algorithm = "";
-        int gridSize = 0;
+        fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input3.txt";
+        algorithm = "";
+        gridSize = 0;
+        ArrayList<ArrayList<Cell>> grid = parseFile();
+        Searchable<Cell> board = new Grid(grid, gridSize, gridSize, 0, 0,
+                gridSize - 1, gridSize - 1);
+        Searcher<Cell> searcher;
+        if (algorithm.matches("IDS")) {
+            searcher = new IDS<Cell>();
+        } else {
+            searcher = new Astar<Cell>();
+        }
+
+        String solution = parseSolution(searcher.search(board));
+        System.out.println(solution);
+    }
+
+    private static ArrayList<ArrayList<Cell>> parseFile() {
         ArrayList<ArrayList<Cell>> grid = null;
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -51,27 +72,23 @@ public class Main {
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
+            exit(1);
         }
-        Searchable<Cell> board = new Grid(grid, gridSize, gridSize, 0, 0,
-                gridSize - 1, gridSize - 1);
-        //Searcher<Cell, Double> searcher = new IDS<Cell, Double>();
-        Searcher<Cell> searcher;
-        if(algorithm.matches("IDS")){
-            searcher = new IDS<Cell>();
-        } else {
-            searcher = new Astar<Cell>();
-        }
+        return grid;
+    }
 
-        State<Cell> goal = searcher.search(board);
-        State<Cell> s = goal;
+    private static String parseSolution(State<Cell> goal) {
+        if (goal == null) {
+            return "no path";
+        }
         State<Cell> temp;
         StringBuffer solution = new StringBuffer();
-        int count =  0;
-        while ((temp = s.getCameFrom()) != null) {
+        int count = 0;
+        while ((temp = goal.getCameFrom()) != null) {
             count += temp.getElement().getCost();
             StringBuffer direction = new StringBuffer();
-            int rowDiff = s.getElement().getRow() - temp.getElement().getRow();
-            int columnDiff = temp.getElement().getColumn() - s.getElement().getColumn();
+            int rowDiff = goal.getElement().getRow() - temp.getElement().getRow();
+            int columnDiff = temp.getElement().getColumn() - goal.getElement().getColumn();
 
             direction.append("-");
             switch (columnDiff) {
@@ -97,11 +114,11 @@ public class Main {
             }
             direction.append(solution);
             solution = direction;
-            s = temp;
+            goal = temp;
         }
         solution.replace(0, 1, "");
         solution.append(" ").append(String.valueOf(count));
-        System.out.println(solution);
+        return solution.toString();
     }
 
 }

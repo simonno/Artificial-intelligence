@@ -10,21 +10,21 @@ public class Astar<E> implements Searcher<E> {
             double fValue2 = s2.getCost() + searchable.getHeuristics(s2);
             if (fValue1 > fValue2) return 1;
             if (fValue1 < fValue2) return -1;
-            if (s1.getDepth() < s2.getDepth()) return 1;
-            if (s1.getDepth() > s2.getDepth()) return -1;
-            return 0;
+            return Integer.compare(s2.getDepth(), s1.getDepth());
         }
     }
 
     @Override
     public State<E> search(Searchable<E> searchable) {
+        double max = Math.pow(searchable.getSize(), 2);
         this.searchable = searchable;
         StateComparator comparator = new StateComparator();
         LinkedList<State<E>> open = new LinkedList<>();
 
         open.add(searchable.getInitialState());
 
-        while (!open.isEmpty()) {
+        int numberOfIteration = 0;
+        while (!open.isEmpty() && numberOfIteration < max) {
             State<E> current = open.removeFirst();
             if (searchable.isGoal(current)) return current;
 
@@ -35,7 +35,7 @@ public class Astar<E> implements Searcher<E> {
                 if (open.contains(successor)) {
                     int index = open.indexOf(successor);
                     State<E> dup = open.get(index);
-                    if (dup.getCost() < successor.getCost()) {
+                    if (dup.getCost() <= successor.getCost()) {
                         continue;
                     }
                     open.remove(index);
@@ -43,6 +43,7 @@ public class Astar<E> implements Searcher<E> {
                 open.add(successor);
                 open.sort(comparator);
             }
+            numberOfIteration++;
         }
         return null;
     }

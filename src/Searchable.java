@@ -5,4 +5,5 @@ public interface Searchable<E> {
     List<State<E>> getSuccessors(State<E> s);
     boolean isGoal(State<E> s);
     double getHeuristics(State<E> s);
+    int getSize();
 }
