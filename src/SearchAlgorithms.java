@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
@@ -12,7 +10,7 @@ public class SearchAlgorithms {
     private static String algorithm;
 
     public static void main(String[] args) {
-        fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input3.txt";
+        fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input4.txt";
         algorithm = "";
         gridSize = 0;
         ArrayList<ArrayList<Cell>> grid = parseFile();
@@ -25,8 +23,20 @@ public class SearchAlgorithms {
             searcher = new Astar<Cell>();
         }
 
-        String solution = parseSolution(searcher.search(board));
-        System.out.println(solution);
+        writeToOutputFile(parseSolution(searcher.search(board)));
+    }
+
+    private static void writeToOutputFile(String solution) {
+        try {
+            File statText = new File("C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\output.txt");
+            FileOutputStream is = new FileOutputStream(statText);
+            OutputStreamWriter osw = new OutputStreamWriter(is);
+            Writer w = new BufferedWriter(osw);
+            w.write(solution);
+            w.close();
+        } catch (IOException e) {
+            System.err.println("Problem writing to the file output.txt");
+        }
     }
 
     private static ArrayList<ArrayList<Cell>> parseFile() {

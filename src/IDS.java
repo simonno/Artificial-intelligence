@@ -28,6 +28,7 @@ public class IDS<E> implements Searcher<E> {
         if (depth > 0) {
             for (State<E> successor : searchable.getSuccessors(s)) {
                 if (!this.queue.contains(successor)) {
+                    this.queue.add(successor);
                     State<E> found = DLS(successor, depth - 1, searchable);
                     if (found != null) {
                         State<E> cameFrom = found;
@@ -37,11 +38,10 @@ public class IDS<E> implements Searcher<E> {
                         cameFrom.setCameFrom(s);
                         return found;
                     }
+                    this.queue.remove(successor);
                 }
             }
-            this.queue.remove(s);
         }
-        this.queue.remove(s);
         return null;
     }
 }
