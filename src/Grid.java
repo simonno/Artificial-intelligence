@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Grid.
+ */
 public class Grid implements Searchable<Cell> {
 
     private ArrayList<ArrayList<Cell>> grid;
@@ -9,6 +12,17 @@ public class Grid implements Searchable<Cell> {
     private Cell start;
     private Cell goal;
 
+    /**
+     * Instantiates a new Grid.
+     *
+     * @param grid        the grid
+     * @param rows        the rows
+     * @param columns     the columns
+     * @param startRow    the start row
+     * @param startColumn the start column
+     * @param goalRow     the goal row
+     * @param goalColumn  the goal column
+     */
     public Grid(ArrayList<ArrayList<Cell>> grid, int rows, int columns,
                 int startRow, int startColumn, int goalRow, int goalColumn) {
         this.grid = grid;

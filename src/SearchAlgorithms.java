@@ -3,12 +3,20 @@ import java.util.ArrayList;
 
 import static java.lang.System.exit;
 
+/**
+ * The type Search algorithms.
+ */
 public class SearchAlgorithms {
 
     private static int gridSize;
     private static String fileName;
     private static String algorithm;
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input4.txt";
         algorithm = "";

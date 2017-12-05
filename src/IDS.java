@@ -1,6 +1,11 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * The type Ids.
+ *
+ * @param <E> the type parameter
+ */
 public class IDS<E> implements Searcher<E> {
     private Queue<State<E>> queue;
 

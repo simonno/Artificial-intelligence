@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * The type Astar.
+ *
+ * @param <E> the type parameter
+ */
 public class Astar<E> implements Searcher<E> {
     private Searchable<E> searchable;
 
