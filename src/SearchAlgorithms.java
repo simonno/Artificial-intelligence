@@ -34,6 +34,11 @@ public class SearchAlgorithms {
         writeToOutputFile(parseSolution(searcher.search(board)));
     }
 
+    /**
+     * Write the solution to the file
+     *
+     * @param solution is the solution of the search.
+     */
     private static void writeToOutputFile(String solution) {
         try {
             File statText = new File("C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\output.txt");
@@ -47,6 +52,11 @@ public class SearchAlgorithms {
         }
     }
 
+    /**
+     * Parse the input file.
+     *
+     * @return 2 dimension array of the grid cells.
+     */
     private static ArrayList<ArrayList<Cell>> parseFile() {
         ArrayList<ArrayList<Cell>> grid = null;
         try {
@@ -95,6 +105,12 @@ public class SearchAlgorithms {
         return grid;
     }
 
+    /**
+     * Parse the solution.
+     *
+     * @param goal is the goal cell.
+     * @return the solution of the search.
+     */
     private static String parseSolution(State<Cell> goal) {
         if (goal == null) {
             return "no path";

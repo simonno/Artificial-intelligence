@@ -97,6 +97,12 @@ public class State<E> {
         this.depth = depth;
     }
 
+    /**
+     * Equals the objects.
+     *
+     * @param o is a object for comparing.
+     * @return true if o is the same state as this state (according to the elements of the states), false else.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;

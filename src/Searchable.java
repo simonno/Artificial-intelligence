@@ -16,31 +16,31 @@ public interface Searchable<E> {
     /**
      * Gets successors.
      *
-     * @param s the s
-     * @return the successors
+     * @param s the state s
+     * @return the successors of s
      */
     List<State<E>> getSuccessors(State<E> s);
 
     /**
      * Is goal boolean.
      *
-     * @param s the s
-     * @return the boolean
+     * @param s the state s
+     * @return true if s is goal state, false else.
      */
     boolean isGoal(State<E> s);
 
     /**
      * Gets heuristics.
      *
-     * @param s the s
-     * @return the heuristics
+     * @param s the state s
+     * @return the heuristics of state s
      */
     double getHeuristics(State<E> s);
 
     /**
      * Gets size.
      *
-     * @return the size
+     * @return the size of the problem
      */
     int getSize();
 }

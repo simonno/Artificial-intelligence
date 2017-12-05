@@ -121,16 +121,19 @@ public class Cell {
         this.column = column;
     }
 
+    /**
+     * Equals the objects.
+     *
+     * @param o is a object for comparing.
+     * @return true if o is the same cell as this cell(according to the row and column), false else.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
         if (o == null || getClass() != o.getClass()) return false;
         try {
             Cell other = (Cell) o;
-            if (this.getRow() == other.getRow() && this.getColumn() == other.getColumn()) {
-                return true;
-            }
-            return false;
+            return this.getRow() == other.getRow() && this.getColumn() == other.getColumn();
         } catch (ClassCastException e) {
             return false;
         }

@@ -8,7 +8,7 @@ public interface Searcher<E> {
      * Search state.
      *
      * @param searchable the searchable
-     * @return the state
+     * @return the goal state, if null - no path to the goal from the initial.
      */
     State<E> search(Searchable<E> searchable);
 }
