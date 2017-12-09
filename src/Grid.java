@@ -116,9 +116,10 @@ public class Grid implements Searchable<Cell> {
      */
     @Override
     public double getHeuristics(State<Cell> s) {
-        int rowDiff = s.getElement().getRow() - this.goal.getRow();
-        int columnDiff = s.getElement().getColumn() - this.goal.getColumn();
-        return Math.sqrt(Math.pow(columnDiff, 2) + Math.pow(rowDiff, 2));
+//        int rowDiff = s.getElement().getRow() - this.goal.getRow();
+//        int columnDiff = s.getElement().getColumn() - this.goal.getColumn();
+//        return Math.sqrt(Math.pow(columnDiff, 2) + Math.pow(rowDiff, 2));
+        return Math.max(this.goal.getRow() - s.getElement().getRow(), this.goal.getColumn() - s.getElement().getColumn());
     }
 
     /**

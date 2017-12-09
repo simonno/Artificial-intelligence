@@ -1,3 +1,4 @@
+//C:\Users\simon\IdeaProjects\artificial intelligence\ex1\input files\
 import java.io.*;
 import java.util.ArrayList;
 
@@ -6,7 +7,7 @@ import static java.lang.System.exit;
 /**
  * The type Search algorithms.
  */
-public class SearchAlgorithms {
+public class java_ex1 {
 
     private static int gridSize;
     private static String fileName;
@@ -18,7 +19,7 @@ public class SearchAlgorithms {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        fileName = "C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files\\input4.txt";
+        fileName = "input.txt";
         algorithm = "";
         gridSize = 0;
         ArrayList<ArrayList<Cell>> grid = parseFile();
@@ -41,7 +42,7 @@ public class SearchAlgorithms {
      */
     private static void writeToOutputFile(String solution) {
         try {
-            File statText = new File("C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\output.txt");
+            File statText = new File("output.txt");
             FileOutputStream is = new FileOutputStream(statText);
             OutputStreamWriter osw = new OutputStreamWriter(is);
             Writer w = new BufferedWriter(osw);
