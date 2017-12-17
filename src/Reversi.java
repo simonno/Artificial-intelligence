@@ -16,8 +16,9 @@ public class Reversi implements Searchable<Board> {
 
     @Override
     public List<State<Board>> getSuccessors(State<Board> s) {
+        Board board = s.getElement();
         List<State<Board>> successors = new LinkedList<State<Board>>();
-        List<Board> possiblePlacements = s.getElement().getPossiblePlacements();
+        List<Board> possiblePlacements = board.getPossiblePlacements(board.getTypeTurn());
         for (Board b : possiblePlacements) {
             successors.add(new State<Board>(b, 0));
         }
