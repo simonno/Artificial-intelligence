@@ -107,6 +107,7 @@ public class Board {
     }
 
     public List<Board> getPossiblePlacements(BoardCell.Type type) {
+        this.printBoard();
         if (type == BoardCell.Type.EMPTY) { // can't place an empty cell on board.
             return null;
         }
@@ -121,9 +122,22 @@ public class Board {
         return possiblePlacements;
     }
 
+    private void printBoard() {
+        System.out.println("-----------------------------------");
+        for (ArrayList<BoardCell> row : this.board) {
+            StringBuilder r = new StringBuilder();
+            for (BoardCell cell : row) {
+                r.append(cell.getType().getType());
+            }
+            System.out.println(r);
+
+        }
+        System.out.println("-----------------------------------");
+    }
+
     private Board placements(int row, int column, BoardCell.Type type) {
         ArrayList<ArrayList<BoardCell>> copyBoard = this.copyBoard();
-
+        copyBoard.get(row).get(column).setType(type);
         for (int i = column + 1; i < this.size; i++) { // right
             BoardCell cell = copyBoard.get(row).get(i);
             if (cell.getType() == BoardCell.Type.EMPTY) {
@@ -233,7 +247,9 @@ public class Board {
         ArrayList<ArrayList<BoardCell>> copy = new ArrayList<>();
         for (ArrayList<BoardCell> row : board) {
             ArrayList<BoardCell> copyRow = new ArrayList<>();
-            Collections.copy(copyRow, row);
+            for (BoardCell cell : row) {
+                copyRow.add(new BoardCell(cell.getRow(), cell.getColumn(), cell.getType()));
+            }
             copy.add(copyRow);
         }
         return copy;
