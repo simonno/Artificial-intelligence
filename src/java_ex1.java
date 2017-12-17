@@ -22,14 +22,14 @@ public class java_ex1 {
         fileName = "input.txt";
         algorithm = "";
         gridSize = 0;
-        ArrayList<ArrayList<Cell>> grid = parseFile();
-        Searchable<Cell> board = new Grid(grid, gridSize, gridSize, 0, 0,
+        ArrayList<ArrayList<GridCell>> grid = parseFile();
+        Searchable<GridCell> board = new Grid(grid, gridSize, gridSize, 0, 0,
                 gridSize - 1, gridSize - 1);
-        Searcher<Cell> searcher;
+        Searcher<GridCell> searcher;
         if (algorithm.matches("IDS")) {
-            searcher = new IDS<Cell>();
+            searcher = new IDS<GridCell>();
         } else {
-            searcher = new Astar<Cell>();
+            searcher = new Astar<GridCell>();
         }
 
         writeToOutputFile(parseSolution(searcher.search(board)));
@@ -58,40 +58,40 @@ public class java_ex1 {
      *
      * @return 2 dimension array of the grid cells.
      */
-    private static ArrayList<ArrayList<Cell>> parseFile() {
-        ArrayList<ArrayList<Cell>> grid = null;
+    private static ArrayList<ArrayList<GridCell>> parseFile() {
+        ArrayList<ArrayList<GridCell>> grid = null;
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             algorithm = br.readLine();
             gridSize = Integer.parseInt(br.readLine());
-            grid = new ArrayList<ArrayList<Cell>>(gridSize);
+            grid = new ArrayList<ArrayList<GridCell>>(gridSize);
             String line;
             for (int i = 0; i < gridSize; i++) {
                 line = br.readLine();
-                ArrayList<Cell> row = new ArrayList<Cell>(gridSize);
+                ArrayList<GridCell> row = new ArrayList<GridCell>(gridSize);
                 for (int j = 0; j < gridSize; j++) {
-                    Cell c = new Cell(i, j);
+                    GridCell c = new GridCell(i, j);
                     switch (line.charAt(j)) {
                         case 'D':
-                            c.setType(Cell.Type.D);
+                            c.setType(GridCell.Type.D);
                             break;
                         case 'G':
-                            c.setType(Cell.Type.GOAL);
+                            c.setType(GridCell.Type.GOAL);
                             break;
                         case 'H':
-                            c.setType(Cell.Type.HILL);
+                            c.setType(GridCell.Type.HILL);
                             break;
                         case 'R':
-                            c.setType(Cell.Type.ROAD);
+                            c.setType(GridCell.Type.ROAD);
                             break;
                         case 'S':
-                            c.setType(Cell.Type.START);
+                            c.setType(GridCell.Type.START);
                             break;
                         case 'W':
-                            c.setType(Cell.Type.WATER);
+                            c.setType(GridCell.Type.WATER);
                             break;
                         default:
-                            c.setType(Cell.Type.ROAD);
+                            c.setType(GridCell.Type.ROAD);
                             break;
                     }
                     row.add(c);
@@ -112,11 +112,11 @@ public class java_ex1 {
      * @param goal is the goal cell.
      * @return the solution of the search.
      */
-    private static String parseSolution(State<Cell> goal) {
+    private static String parseSolution(State<GridCell> goal) {
         if (goal == null) {
             return "no path";
         }
-        State<Cell> temp;
+        State<GridCell> temp;
         StringBuffer solution = new StringBuffer();
         int count = 0;
         while ((temp = goal.getCameFrom()) != null) {
