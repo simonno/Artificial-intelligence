@@ -24,22 +24,29 @@ public class java_ex2 {
         boardSize = 5;
         ArrayList<ArrayList<BoardCell>> board = parseFile();
         Searchable<Board> searchable = new Reversi(new Board(board, boardSize, BoardCell.Type.BLACK));
-
-        writeToOutputFile();
+        Searcher<Board> searcher = new MinMax<Board>();
+        State<Board> s =  searcher.search(searchable);
+        if (s.getCost() > 0) {
+            writeToOutputFile("B");
+        } else  if (s.getCost() < 0) {
+            writeToOutputFile("W");
+        } else { // draw
+            writeToOutputFile("D");
+        }
     }
 
     /**
-     * Write the solution to the file
+     * Write the output to the file
      *
-     * @param solution is the solution of the search.
+     * @param output is the output of the search.
      */
-    private static void writeToOutputFile(String solution) {
+    private static void writeToOutputFile(String output) {
         try {
             File statText = new File("output.txt");
             FileOutputStream is = new FileOutputStream(statText);
             OutputStreamWriter osw = new OutputStreamWriter(is);
             Writer w = new BufferedWriter(osw);
-            w.write(solution);
+            w.write(output);
             w.close();
         } catch (IOException e) {
             System.err.println("Problem writing to the file output.txt");

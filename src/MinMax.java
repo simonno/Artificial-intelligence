@@ -4,7 +4,8 @@ import static java.lang.Double.min;
 public class MinMax<E> implements Searcher<E> {
     @Override
     public State<E> search(Searchable<E> searchable) {
-        return null;
+        double value = minimax(searchable.getInitialState(), 3, true, searchable);
+        return new State<E>(null, value);
     }
 
     private double minimax(State<E> state, int depth, boolean maximizingPlayer, Searchable<E> searchable) {

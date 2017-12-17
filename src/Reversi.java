@@ -39,7 +39,7 @@ public class Reversi implements Searchable<Board> {
         if (t == null) {
             int numberOfBlack = b.getNumberOfBlackCell();
             int numberOfWhite = b.getNumberOfWhiteCell();
-            return numberOfBlack - numberOfWhite; // + number of black of the bounds
+            return numberOfBlack - numberOfWhite + b.getNumberOfBlackCellOnBounds();
         } else if (t == BoardCell.Type.BLACK) {
             return Double.MAX_VALUE;
         } else if (t == BoardCell.Type.WHITE) {
