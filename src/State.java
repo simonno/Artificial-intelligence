@@ -6,6 +6,7 @@
 public class State<E> {
 
     private E element;
+
     private State<E> cameFrom;
     private double cost;
     private int depth;
@@ -59,6 +60,15 @@ public class State<E> {
      */
     public E getElement() {
         return element;
+    }
+
+    /**
+     * Sets element.
+     *
+     * @param element the element
+     */
+    public void setElement(E element) {
+        this.element = element;
     }
 
     /**

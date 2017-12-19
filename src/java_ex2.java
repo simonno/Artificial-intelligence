@@ -23,9 +23,20 @@ public class java_ex2 {
         fileName = "//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files ex2\\input.txt";
         boardSize = 5;
         ArrayList<ArrayList<BoardCell>> board = parseFile();
+        //BoardCell.Type type = BoardCell.Type.BLACK;
         Searchable<Board> searchable = new Reversi(new Board(board, boardSize, BoardCell.Type.BLACK));
-        Searcher<Board> searcher = new MinMax<Board>();
+        Searcher<Board> searcher = new MinMax<Board>(true);
         State<Board> s =  searcher.search(searchable);
+
+        while (!searchable.isGoal(s)) {
+//            if (type == BoardCell.Type.BLACK) {
+//                type = BoardCell.Type.WHITE;
+//            } else  {
+//                type = BoardCell.Type.BLACK;
+//            }
+            searchable = new Reversi(s.getElement());
+        }
+
         if (s.getCost() > 0) {
             writeToOutputFile("B");
         } else  if (s.getCost() < 0) {
