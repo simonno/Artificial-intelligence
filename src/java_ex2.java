@@ -35,6 +35,7 @@ public class java_ex2 {
 //                type = BoardCell.Type.BLACK;
 //            }
             searchable = new Reversi(s.getElement());
+            s =  searcher.search(searchable);
         }
 
         if (s.getCost() > 0) {
