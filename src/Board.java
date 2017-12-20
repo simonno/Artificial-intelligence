@@ -1,9 +1,11 @@
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The type Board.
+ */
 public class Board {
     private ArrayList<ArrayList<BoardCell>> board;
     private int size;
@@ -15,6 +17,13 @@ public class Board {
     private BoardCell.Type typeTurn;
 
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param board    the board
+     * @param size     the size
+     * @param typeTurn the type turn - the color of the player which is his turn.
+     */
     public Board(ArrayList<ArrayList<BoardCell>> board, int size, BoardCell.Type typeTurn) {
         this.board = board;
         this.size = size;
@@ -27,6 +36,12 @@ public class Board {
         SetNumberOfCells();
     }
 
+    /**
+     * Instantiates a new Board.
+     *
+     * @param boardString the board string
+     * @param size        the size
+     */
     public Board(String boardString, int size) {
         this.board = this.Parser(boardString, size);
         this.size = size;
@@ -34,10 +49,20 @@ public class Board {
 
     }
 
+    /**
+     * Parser array list.
+     *
+     * @param boardString the board string
+     * @param size        the size
+     * @return the array list
+     */
     public ArrayList<ArrayList<BoardCell>> Parser(String boardString, int size) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Initials the number of the type of the cells on board.
+     */
     private void SetNumberOfCells() {
         for (ArrayList<BoardCell> row : this.board) {
             for (BoardCell cell : row) {
@@ -86,6 +111,19 @@ public class Board {
 
     }
 
+    /**
+     * Is winning.
+     * <p>
+     * check if it is a winning state.
+     * case it is :
+     * return BoardCell.Type.BLACK if the black player wins.
+     * return BoardCell.Type.WHITE if the white player wins.
+     * return BoardCell.Type.EMPTY for draw.
+     * case it isn't: return null
+     * </p>
+     *
+     * @return the board cell . type
+     */
     public BoardCell.Type isWinning() {
         if (this.getNumberOfEmptyCell() == 0) { // the board is full.
             int numberOfBlack = this.getNumberOfBlackCell();
@@ -104,18 +142,39 @@ public class Board {
     }
 
 
+    /**
+     * Gets number of empty cell.
+     *
+     * @return the number of empty cell
+     */
     public int getNumberOfEmptyCell() {
         return numberOfEmptyCell;
     }
 
+    /**
+     * Gets number of black cell.
+     *
+     * @return the number of black cell
+     */
     public int getNumberOfBlackCell() {
         return numberOfBlackCell;
     }
 
+    /**
+     * Gets number of white cell.
+     *
+     * @return the number of white cell
+     */
     public int getNumberOfWhiteCell() {
         return numberOfWhiteCell;
     }
 
+    /**
+     * Gets possible placements.
+     *
+     * @param type the type
+     * @return the possible placements
+     */
     public List<Board> getPossiblePlacements(BoardCell.Type type) {
         this.printBoard();
         if (type == BoardCell.Type.EMPTY) { // can't place an empty cell on board.
@@ -145,6 +204,14 @@ public class Board {
         System.out.println("-----------------------------------");
     }
 
+    /**
+     * Placement a pawn on board.
+     *
+     * @param row    the row of the cell on board
+     * @param column the column of the cell on board
+     * @param type   the type of the player to add.
+     * @return the new board after the placement.
+     */
     private Board placements(int row, int column, BoardCell.Type type) {
         ArrayList<ArrayList<BoardCell>> copyBoard = this.copyBoard();
         copyBoard.get(row).get(column).setType(type);
@@ -253,6 +320,11 @@ public class Board {
         }
     }
 
+    /**
+     * Copy the board of this class.
+     *
+     * @return the copy of the board
+     */
     private ArrayList<ArrayList<BoardCell>> copyBoard() {
         ArrayList<ArrayList<BoardCell>> copy = new ArrayList<>();
         for (ArrayList<BoardCell> row : board) {
@@ -265,6 +337,12 @@ public class Board {
         return copy;
     }
 
+    /**
+     * Check if the given cell is valid to placement a pawn.
+     *
+     * @param cell the given cell.
+     * @return true if valid, false else.
+     */
     private boolean validForPlacement(BoardCell cell) {
         if (cell.getType() == BoardCell.Type.EMPTY) {
             List<BoardCell> successors = this.getSuccessors(cell);
@@ -277,6 +355,12 @@ public class Board {
         return false;
     }
 
+    /**
+     * Get the successors of the given cell.
+     *
+     * @param cell the given cell
+     * @return list of the successors
+     */
     private List<BoardCell> getSuccessors(BoardCell cell) {
         int row = cell.getRow();
         int column = cell.getColumn();
@@ -292,6 +376,17 @@ public class Board {
         return successors;
     }
 
+    /**
+     * Add successor.
+     * <p>
+     * add the spcific cell on the row and column which given if it is in the board's bound
+     * </p>
+     *
+     * @param row        the row of the cell on board
+     * @param column     the column of the cell on board
+     * @param successors the list to add the cell.
+     * @return true - adding succeed, false else.
+     */
     private boolean addSuccessor(int row, int column, List<BoardCell> successors) {
         BoardCell successor = getCell(row, column);
         if (successor != null) {
@@ -317,14 +412,29 @@ public class Board {
     }
 
 
+    /**
+     * Gets type turn.
+     *
+     * @return the type turn
+     */
     public BoardCell.Type getTypeTurn() {
         return typeTurn;
     }
 
+    /**
+     * Gets number of black cell on bounds.
+     *
+     * @return the number of black cell on bounds
+     */
     public int getNumberOfBlackCellOnBounds() {
         return numberOfBlackCellOnBounds;
     }
 
+    /**
+     * Gets number of white cell on bounds.
+     *
+     * @return the number of white cell on bounds
+     */
     public int getNumberOfWhiteCellOnBounds() {
         return numberOfWhiteCellOnBounds;
     }

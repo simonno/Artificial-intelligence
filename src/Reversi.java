@@ -1,18 +1,36 @@
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The type Reversi.
+ */
 public class Reversi implements Searchable<Board> {
 
     private Board board;
 
+    /**
+     * Instantiates a new Reversi.
+     *
+     * @param board the board
+     */
     public Reversi(Board board) {
         this.board = board;
     }
 
+    /**
+     * Gets board.
+     *
+     * @return the board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Sets board.
+     *
+     * @param board the board
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
