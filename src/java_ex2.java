@@ -24,23 +24,24 @@ public class java_ex2 {
         boardSize = 5;
         ArrayList<ArrayList<BoardCell>> board = parseFile();
         //BoardCell.Type type = BoardCell.Type.BLACK;
-        Searchable<Board> searchable = new Reversi(new Board(board, boardSize, BoardCell.Type.BLACK));
-        Searcher<Board> searcher = new MinMax<Board>(true);
-        State<Board> s =  searcher.search(searchable);
+        Reversi searchable = new Reversi(new Board(board, boardSize, BoardCell.Type.BLACK));
+        MinMax<Board> searcher = new MinMax<Board>(true);
+        State<Board> s = searcher.search(searchable);
 
         while (!searchable.isGoal(s)) {
-//            if (type == BoardCell.Type.BLACK) {
-//                type = BoardCell.Type.WHITE;
-//            } else  {
-//                type = BoardCell.Type.BLACK;
-//            }
-            searchable = new Reversi(s.getElement());
-            s =  searcher.search(searchable);
+            Board b = s.getElement();
+            searchable.setBoard(b);
+            if (b.getTypeTurn() == BoardCell.Type.BLACK) {
+                searcher.setMaximizing(true);
+            } else {
+                searcher.setMaximizing(false);
+            }
+            s = searcher.search(searchable);
         }
 
         if (s.getCost() > 0) {
             writeToOutputFile("B");
-        } else  if (s.getCost() < 0) {
+        } else if (s.getCost() < 0) {
             writeToOutputFile("W");
         } else { // draw
             writeToOutputFile("D");

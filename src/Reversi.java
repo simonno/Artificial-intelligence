@@ -9,6 +9,14 @@ public class Reversi implements Searchable<Board> {
         this.board = board;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     @Override
     public State<Board> getInitialState() {
         return new State<Board>(board, 0);
@@ -39,7 +47,9 @@ public class Reversi implements Searchable<Board> {
         if (t == null) {
             int numberOfBlack = b.getNumberOfBlackCell();
             int numberOfWhite = b.getNumberOfWhiteCell();
-            return numberOfBlack - numberOfWhite + b.getNumberOfBlackCellOnBounds();
+            int numberOfBlackCellOnBounds = b.getNumberOfBlackCellOnBounds();
+            int numberOfWhiteCellOnBounds = b.getNumberOfWhiteCellOnBounds();
+            return numberOfBlack - numberOfWhite + numberOfBlackCellOnBounds - numberOfWhiteCellOnBounds;
         } else if (t == BoardCell.Type.BLACK) {
             return Double.MAX_VALUE;
         } else if (t == BoardCell.Type.WHITE) {

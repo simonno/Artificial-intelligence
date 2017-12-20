@@ -11,6 +11,7 @@ public class Board {
     private int numberOfWhiteCell;
     private int numberOfEmptyCell;
     private int numberOfBlackCellOnBounds;
+    private int numberOfWhiteCellOnBounds;
     private BoardCell.Type typeTurn;
 
 
@@ -22,6 +23,7 @@ public class Board {
         this.numberOfWhiteCell = 0;
         this.numberOfEmptyCell = 0;
         this.numberOfBlackCellOnBounds = 0;
+        this.numberOfWhiteCellOnBounds = 0;
         SetNumberOfCells();
     }
 
@@ -57,20 +59,28 @@ public class Board {
         for (int i = 0; i < size; i++) {
             if (this.getCell(0, i).getType() == BoardCell.Type.BLACK) {
                 this.numberOfBlackCellOnBounds++;
+            } else if (this.getCell(0, i).getType() == BoardCell.Type.WHITE) {
+                this.numberOfWhiteCellOnBounds++;
             }
 
             if (this.getCell(this.size - 1, i).getType() == BoardCell.Type.BLACK) {
                 this.numberOfBlackCellOnBounds++;
+            } else if (this.getCell(this.size - 1, i).getType() == BoardCell.Type.WHITE) {
+                this.numberOfWhiteCellOnBounds++;
             }
         }
 
         for (int i = 1; i < size - 1; i++) {
             if (this.getCell(i, 0).getType() == BoardCell.Type.BLACK) {
                 this.numberOfBlackCellOnBounds++;
+            } else if (this.getCell(i, 0).getType() == BoardCell.Type.WHITE) {
+                this.numberOfWhiteCellOnBounds++;
             }
 
             if (this.getCell(i, this.size - 1).getType() == BoardCell.Type.BLACK) {
                 this.numberOfBlackCellOnBounds++;
+            } else if (this.getCell(i, this.size - 1).getType() == BoardCell.Type.WHITE) {
+                this.numberOfWhiteCellOnBounds++;
             }
         }
 
@@ -313,5 +323,9 @@ public class Board {
 
     public int getNumberOfBlackCellOnBounds() {
         return numberOfBlackCellOnBounds;
+    }
+
+    public int getNumberOfWhiteCellOnBounds() {
+        return numberOfWhiteCellOnBounds;
     }
 }
