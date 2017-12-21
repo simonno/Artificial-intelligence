@@ -44,7 +44,7 @@ public class Reversi implements Searchable<Board> {
     public List<State<Board>> getSuccessors(State<Board> s) {
         Board board = s.getElement();
         List<State<Board>> successors = new LinkedList<State<Board>>();
-        List<Board> possiblePlacements = board.getPossiblePlacements(board.getTypeTurn());
+        List<Board> possiblePlacements = board.getPossiblePlacements();
         for (Board b : possiblePlacements) {
             successors.add(new State<Board>(b, 0));
         }
@@ -71,7 +71,7 @@ public class Reversi implements Searchable<Board> {
         } else if (t == BoardCell.Type.BLACK) {
             return Double.MAX_VALUE;
         } else if (t == BoardCell.Type.WHITE) {
-            return Double.MIN_VALUE;
+            return -Double.MAX_VALUE;
         } else { // tie
             return 0;
         }

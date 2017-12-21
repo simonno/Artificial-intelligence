@@ -20,16 +20,19 @@ public class java_ex2 {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        fileName = "//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files ex2\\input.txt";
+        fileName = "//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files ex2\\input7 .txt";
         boardSize = 5;
         ArrayList<ArrayList<BoardCell>> board = parseFile();
         //BoardCell.Type type = BoardCell.Type.BLACK;
-        Reversi searchable = new Reversi(new Board(board, boardSize, BoardCell.Type.BLACK));
+        Board b = new Board(board, boardSize, BoardCell.Type.BLACK);
+        b.printBoard();
+        Reversi searchable = new Reversi(b);
         MinMax<Board> searcher = new MinMax<Board>(true);
         State<Board> s = searcher.search(searchable);
 
         while (!searchable.isGoal(s)) {
-            Board b = s.getElement();
+            b = s.getElement();
+            b.printBoard();
             searchable.setBoard(b);
             if (b.getTypeTurn() == BoardCell.Type.BLACK) {
                 searcher.setMaximizing(true);
@@ -38,6 +41,9 @@ public class java_ex2 {
             }
             s = searcher.search(searchable);
         }
+
+        b = s.getElement();
+        b.printBoard();
 
         if (s.getCost() > 0) {
             writeToOutputFile("B");
@@ -48,6 +54,7 @@ public class java_ex2 {
         }
     }
 
+
     /**
      * Write the output to the file
      *
@@ -55,7 +62,7 @@ public class java_ex2 {
      */
     private static void writeToOutputFile(String output) {
         try {
-            File statText = new File("//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\output files ex2\\output.txt");
+            File statText = new File("//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\output files ex2\\output7.txt");
             FileOutputStream is = new FileOutputStream(statText);
             OutputStreamWriter osw = new OutputStreamWriter(is);
             Writer w = new BufferedWriter(osw);

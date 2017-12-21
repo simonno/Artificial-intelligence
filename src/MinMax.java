@@ -43,7 +43,7 @@ public class MinMax<E> implements Searcher<E> {
         State<E> initialState = searchable.getInitialState();
         State<E> theBestNextState = null;
         if (this.isMaximizing) {
-            double bestValue = Double.MIN_VALUE;
+            double bestValue = -Double.MAX_VALUE;
             for (State<E> successor : searchable.getSuccessors(initialState)) {
                 double v = minimax(successor, this.maxDepth - 1, false, searchable);
                 if (bestValue <= v) {
@@ -58,7 +58,6 @@ public class MinMax<E> implements Searcher<E> {
             double bestValue = Double.MAX_VALUE;
             for (State<E> successor : searchable.getSuccessors(initialState)) {
                 double v = minimax(successor, this.maxDepth - 1, true, searchable);
-                bestValue = min(bestValue, v);
                 if (bestValue >= v) {
                     theBestNextState = successor;
                     theBestNextState.setCost(v);
@@ -84,7 +83,7 @@ public class MinMax<E> implements Searcher<E> {
         }
 
         if (maximizingPlayer) {
-            double bestValue = Double.MIN_VALUE;
+            double bestValue = -Double.MAX_VALUE;
             for (State<E> successor : searchable.getSuccessors(state)) {
                 double v = minimax(successor, depth - 1, false, searchable);
                 bestValue = max(bestValue, v);

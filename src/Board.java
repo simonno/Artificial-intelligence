@@ -45,6 +45,11 @@ public class Board {
     public Board(String boardString, int size) {
         this.board = this.Parser(boardString, size);
         this.size = size;
+        this.numberOfBlackCell = 0;
+        this.numberOfWhiteCell = 0;
+        this.numberOfEmptyCell = 0;
+        this.numberOfBlackCellOnBounds = 0;
+        this.numberOfWhiteCellOnBounds = 0;
         SetNumberOfCells();
 
     }
@@ -172,27 +177,26 @@ public class Board {
     /**
      * Gets possible placements.
      *
-     * @param type the type
      * @return the possible placements
      */
-    public List<Board> getPossiblePlacements(BoardCell.Type type) {
-        this.printBoard();
-        if (type == BoardCell.Type.EMPTY) { // can't place an empty cell on board.
-            return null;
-        }
+    public List<Board> getPossiblePlacements() {
         List<Board> possiblePlacements = new LinkedList<>();
         for (ArrayList<BoardCell> row : this.board) {
             for (BoardCell cell : row) {
                 if (this.validForPlacement(cell)) {
-                    possiblePlacements.add(this.placements(cell.getRow(), cell.getColumn(), type));
+                    possiblePlacements.add(this.placements(cell.getRow(), cell.getColumn()));
                 }
             }
         }
         return possiblePlacements;
     }
 
-    private void printBoard() {
-        System.out.println("-----------------------------------");
+    public void printBoard() {
+        if (this.typeTurn == BoardCell.Type.WHITE) {
+            System.out.println("turn: " + BoardCell.Type.BLACK);
+        } else {
+            System.out.println("turn: " + BoardCell.Type.WHITE);
+        }
         for (ArrayList<BoardCell> row : this.board) {
             StringBuilder r = new StringBuilder();
             for (BoardCell cell : row) {
@@ -209,10 +213,11 @@ public class Board {
      *
      * @param row    the row of the cell on board
      * @param column the column of the cell on board
-     * @param type   the type of the player to add.
      * @return the new board after the placement.
      */
-    private Board placements(int row, int column, BoardCell.Type type) {
+    private Board placements(int row, int column) {
+        BoardCell.Type type = this.typeTurn;
+
         ArrayList<ArrayList<BoardCell>> copyBoard = this.copyBoard();
         copyBoard.get(row).get(column).setType(type);
         for (int i = column + 1; i < this.size; i++) { // right
