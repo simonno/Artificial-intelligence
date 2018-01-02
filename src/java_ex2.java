@@ -20,7 +20,7 @@ public class java_ex2 {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        fileName = "//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files ex2\\input7 .txt";
+        fileName = "//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\input files ex2\\input9.txt";
         boardSize = 5;
         ArrayList<ArrayList<BoardCell>> board = parseFile();
         //BoardCell.Type type = BoardCell.Type.BLACK;
@@ -62,7 +62,7 @@ public class java_ex2 {
      */
     private static void writeToOutputFile(String output) {
         try {
-            File statText = new File("//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\output files ex2\\output7.txt");
+            File statText = new File("//C:\\Users\\simon\\IdeaProjects\\artificial intelligence\\ex1\\output files ex2\\output9.txt");
             FileOutputStream is = new FileOutputStream(statText);
             OutputStreamWriter osw = new OutputStreamWriter(is);
             Writer w = new BufferedWriter(osw);
